@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kiran's Social Links</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      height: 100%;
+      overflow: hidden;
+      color: white;
+    }
+
+    body {
+      position: relative;
+      background: #000;
+    }
+
+    canvas#bg {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+      height: 100vh;
+      justify-content: center;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin: 0.5rem 0;
+    }
+
+    .wave {
+      display: inline-block;
+      animation: waveAnim 2s infinite;
+      transform-origin: 70% 70%;
+    }
+
+    @keyframes waveAnim {
+      0% { transform: rotate(0deg); }
+      10% { transform: rotate(14deg); }
+      20% { transform: rotate(-8deg); }
+      30% { transform: rotate(14deg); }
+      40% { transform: rotate(-4deg); }
+      50% { transform: rotate(10deg); }
+      60% { transform: rotate(0deg); }
+      100% { transform: rotate(0deg); }
+    }
+
+    p {
+      margin-bottom: 1.5rem;
+      font-size: 1.2rem;
+      opacity: 0.8;
+    }
+
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      width: 100%;
+      max-width: 340px;
+    }
+
+    .link-button {
+      text-decoration: none;
+      padding: 1rem;
+      border-radius: 20px;
+      font-weight: 600;
+      color: white;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 1rem;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 4px 15px rgba(255,255,255,0.1);
+    }
+
+    .link-button img {
+      width: 28px;
+      height: 28px;
+      transition: transform 0.4s ease, opacity 0.4s ease;
+    }
+
+    .link-button:hover {
+      transform: scale(1.05);
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .link-button:hover img {
+      animation: blink-bounce 1s infinite;
+    }
+
+    @keyframes blink-bounce {
+      0%, 100% { opacity: 1; transform: translateY(0); }
+      50% { opacity: 0.5; transform: translateY(-5px); }
+    }
+
+    footer {
+      margin-top: 2rem;
+      font-size: 0.85rem;
+      opacity: 0.6;
+    }
+
+    @media screen and (max-width: 480px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      .link-button {
+        font-size: 0.95rem;
+        padding: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Dynamic Particle Background -->
+  <canvas id="bg"></canvas>
+
+  <div class="container">
+    <h1><span class="wave">👋</span> Hi, I'm Kiran</h1>
+    <p>Let’s connect on my socials below:</p>
+
+    <div class="links">
+      <a href="https://instagram.com/itskiranprasath" target="_blank" class="link-button">
+        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" />
+        <span>Instagram</span>
+      </a>
+      <a href="https://x.com/itskiranprasath" target="_blank" class="link-button">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter" />
+        <span>Twitter</span>
+      </a>
+      <a href="https://github.com/itskiranprasath" target="_blank" class="link-button">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733553.png" alt="GitHub" />
+        <span>GitHub</span>
+      </a>
+    </div>
+
+    <footer>
+      © 2025 Kiran Prasath
+    </footer>
+  </div>
+
+  <!-- Particle Background Script -->
+  <script>
+    const canvas = document.getElementById("bg");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let particlesArray = [];
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2 + 1;
+        this.speedX = Math.random() * 0.5 - 0.25;
+        this.speedY = Math.random() * 0.5 - 0.25;
+      }
+
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+
+        if (this.x > canvas.width || this.x < 0) this.speedX = -this.speedX;
+        if (this.y > canvas.height || this.y < 0) this.speedY = -this.speedY;
+      }
+
+      draw() {
+        ctx.fillStyle = 'rgba(255,255,255,0.7)';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function initParticles() {
+      particlesArray = [];
+      for (let i = 0; i < 150; i++) {
+        particlesArray.push(new Particle());
+      }
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let particle of particlesArray) {
+        particle.update();
+        particle.draw();
+      }
+      requestAnimationFrame(animateParticles);
+    }
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      initParticles();
+    });
+
+    initParticles();
+    animateParticles();
+  </script>
+</body>
+</html>
